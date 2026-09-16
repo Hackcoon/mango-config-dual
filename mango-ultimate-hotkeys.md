@@ -127,12 +127,12 @@ Note: single-gesture SHIFT-drag-float is impossible — mango retiles EVERY tile
 | `SUPER + Shift + 1..9` | Send window to tag + follow |
 | `SUPER + CTRL + 1..9` | Send silent (no follow) |
 | `SUPER + Shift + [` / `]` | Move window one tag left / right |
-| `SUPER + U` | Tiling scratchpad |
-| `SUPER + Shift + U` | Minimize |
-| `SUPER + CTRL + U` | Restore minimized |
-| `SUPER + J` | Special workspace overlay |
-| `SUPER + Shift + J` | Send window to special |
-| `SUPER + CTRL + J` | Send silent to special |
+| `SUPER + U` | Special workspace overlay |
+| `SUPER + Shift + U` | Send window to special |
+| `SUPER + CTRL + U` | Send silent to special |
+| `SUPER + J` | Tiling scratchpad |
+| `SUPER + Shift + J` | Minimize |
+| `SUPER + CTRL + J` | Restore minimized |
 
 ## Shell modes (DMS + Noctalia, one file)
 
@@ -203,6 +203,7 @@ Note: single-gesture SHIFT-drag-float is impossible — mango retiles EVERY tile
 - 2026-09-15: switched MangoWC 0.16.3 → 0.17.0 (source override until unstable catches up); replaced `SUPER+J` calculator with special workspace trio (`toggle_special_tag` / `tag_special_tag` / `tag_special_silent`); appendix refreshed.
 - 2026-09-15: fixed grey desktop on re-login — added `exec-once=systemctl --user start dms` (session target is often already active, so its Wants never refires and DMS stayed dead).
 - 2026-09-15: dual-shell keymodes — `noctalia` mode mirroring the DMS set via `noctalia msg`, `SUPER+ALT+N/D` swap scripts (verify + rollback), manual `noctalia.service` (no autostart); appendix refreshed (156 binds).
+- 2026-09-15: swapped the complete special-workspace trio from `SUPER+J` to `SUPER+U`; moved regular scratchpad/minimize/restore to the `SUPER+J` trio.
 
 ## Appendix: raw hotkey source (snapshot 2026-09-15)
 
