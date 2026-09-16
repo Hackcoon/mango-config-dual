@@ -15,8 +15,8 @@
   "cornerRadius": 12,
   "showWeekNumber": true,
   "clockFormat": "12h",
-  "animationSpeed": 4,
-  "customAnimationDuration": 27,
+  "animationSpeed": 2,
+  "customAnimationDuration": 86,
   "reduceMotion": true,
   "springBounce": 0,
   "barElevationEnabled": false,
@@ -67,16 +67,18 @@
   "showWorkspaceIndex": true,
   "showWorkspaceName": true,
   "showWorkspaceApps": true,
-  "maxWorkspaceIcons": 49,
+  "maxWorkspaceIcons": 5,
   "workspaceColorMode": "secondaryContainer",
   "workspaceFocusedBorderEnabled": true,
   "workspaceFocusedBorderColor": "surfaceText",
   "workspaceFocusedBorderThickness": 1,
+  "mediaUseAlbumArtAccent": true,
   "appIdSubstitutions": [],
   "clockDateFormat": "ddd MMM d",
   "lockDateFormat": "ddd MMM d",
   "spotlightSectionViewModes": {
-    "apps": "list"
+    "apps": "list",
+    "plugin_emojiLauncher": "list"
   },
   "keybindsFloatingWindow": true,
   "cursorSettings": {
@@ -102,7 +104,6 @@
   "lockScreenFontFamily": "FiraMono Nerd Font Mono",
   "notificationShowTimeoutBar": true,
   "notificationCustomAnimationDuration": 186,
-  "dankIslandBarId": "default",
   "dankIslandHomeLayout": [
     {
       "id": "media",
@@ -198,9 +199,9 @@
       "widgetOutlineThickness": 1,
       "fontScale": 1,
       "iconScale": 1,
-      "autoHide": false,
+      "autoHide": true,
       "autoHideDelay": 250,
-      "showOnWindowsOpen": false,
+      "showOnWindowsOpen": true,
       "openOnOverview": false,
       "visible": true,
       "popupGapsAuto": true,
@@ -215,7 +216,8 @@
       "shadowCustomColor": "#000000",
       "clickThrough": false,
       "attachToScreenEdge": false,
-      "hoverPopouts": false
+      "hoverPopouts": false,
+      "autoHideStrict": true
     }
   ],
   "desktopClockCustomColor": {

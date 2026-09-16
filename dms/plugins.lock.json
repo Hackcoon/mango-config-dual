@@ -1,6 +1,10 @@
 {
   "lockfileVersion": 1,
   "plugins": {
+    "emojiLauncher": {
+      "repo": "https://github.com/devnullvoid/dms-emoji-launcher",
+      "commit": "8ff394e3ddfcb2fd755ed2e7b4c6f01f3e26e596"
+    },
     "mangoWmLayoutManager": {
       "repo": "https://github.com/omarluq/DMSMangoWCLayoutManager",
       "commit": "f4824511dad314db9881a1974387a4546e5aae6d"
