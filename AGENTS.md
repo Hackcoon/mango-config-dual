@@ -55,6 +55,11 @@ two copies independently.
   dispatcher against the binary (`mango -p` rejects unknowns), not the web.
 - Before picking a key, grep the live config for conflicts across ALL
   modifiers (`SUPER`, `SUPER+SHIFT`, `SUPER+CTRL`, `SUPER+ALT`).
+- `keymode=` markers are positional: every bind below one belongs to that
+  mode until the next marker (`common` = all modes, `default` = DMS boot
+  mode, `noctalia` = Noctalia mode). New binds go in the right mode section;
+  the same key may repeat across modes. Keep the noctalia section FIRST so
+  `SUPER+H` keeps showing DMS descriptions.
 - Use `git mv` for renames/moves so history is preserved.
 - Commit style: short imperative (`Add ...`, `Fix ...`, `Move ...`, `Rename ...`).
 - No spaces-free renames needed, but prefer clear names; archive stale docs

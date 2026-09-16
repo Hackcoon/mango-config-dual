@@ -1,6 +1,6 @@
 # Mango Ultimate Hotkeys (fury) — LIVING DOC, keep updated
 
-> Last updated: 2026-09-15 (SUPER+J special workspace, MangoWC 0.17.0). MangoWC 0.17.0 + DMS 1.6.
+> Last updated: 2026-09-15 (dual-shell keymodes: DMS default + Noctalia). MangoWC 0.17.0 + DMS 1.6 + Noctalia 5.1.0.
 > Source of truth: `~/.config/mango/config.conf` (+ `media.conf`, `dms/` fragments).
 > This file is the hotkey reference to hand to any AI. When binds change, update this file AND the config together.
 > Supersedes `~/mango-dms-hotkeys.md` (left untouched as archive).
@@ -134,6 +134,23 @@ Note: single-gesture SHIFT-drag-float is impossible — mango retiles EVERY tile
 | `SUPER + Shift + J` | Send window to special |
 | `SUPER + CTRL + J` | Send silent to special |
 
+## Shell modes (DMS + Noctalia, one file)
+
+`keymode=` markers are positional — every bind below one belongs to that mode until the next marker. Mango boots into `default`.
+
+| Shortcut | Action |
+|---|---|
+| `SUPER + Alt + N` | Switch to Noctalia (stops DMS, starts Noctalia, flips keymode) |
+| `SUPER + Alt + D` | Switch to DMS (stops Noctalia, starts DMS, flips keymode) |
+
+- `common` mode: all shell-agnostic binds (tags, layouts, windows, apps) + the two swap binds. Always active.
+- `default` mode: the DMS tables above. Active at login.
+- `noctalia` mode: mirrors the DMS set via `noctalia msg` — `SUPER+Space` launcher, `SUPER+V` clipboard, `SUPER+Comma` settings, `SUPER+O` control center, `SUPER+W` wallpaper, `SUPER+X`/`CTRL+ALT+P` session menu, `SUPER+P` power profile (`power-cycle`), `SUPER+SHIFT+P` media toggle, `SUPER+T` theme toggle, `SUPER+SHIFT+N` DND, `SUPER+ALT+L` lock, `SUPER+Semicolon` emoji (`launcher /emo`), `SUPER+M` btop, `SUPER+S`/`SHIFT+S`/`CTRL+SHIFT+S` + `Print` trio (region/fullscreen/annotate), `SUPER+R` Noctalia config reload, `SUPER+H` Keybind Cheatsheet plugin panel, `CTRL+ALT+SUPER+B` bar toggle, XF86 volume/brightness, portal-restart dup.
+- Intentionally unbound in Noctalia mode (no equivalent): `SUPER+N`, `SUPER+SHIFT+C`.
+- `SUPER+H` works in both modes: DMS cheatsheet in `default`, markdown sheet in a pager in `noctalia`.
+- `SUPER+H` shows DMS descriptions even in Noctalia mode (it displays the last-parsed bind per key, and the DMS block deliberately parses last); this sheet is the accurate reference.
+- Swap scripts verify each step and roll back on failure; never run both shells at once.
+
 ## Monitors (dwm parity; inert on single-monitor)
 
 | Shortcut | Action |
@@ -185,12 +202,83 @@ Note: single-gesture SHIFT-drag-float is impossible — mango retiles EVERY tile
 - 2026-09-15: added `SUPER+J` calculator (qalculate-qt, last free bare SUPER+letter); appendix refreshed.
 - 2026-09-15: switched MangoWC 0.16.3 → 0.17.0 (source override until unstable catches up); replaced `SUPER+J` calculator with special workspace trio (`toggle_special_tag` / `tag_special_tag` / `tag_special_silent`); appendix refreshed.
 - 2026-09-15: fixed grey desktop on re-login — added `exec-once=systemctl --user start dms` (session target is often already active, so its Wants never refires and DMS stayed dead).
+- 2026-09-15: dual-shell keymodes — `noctalia` mode mirroring the DMS set via `noctalia msg`, `SUPER+ALT+N/D` swap scripts (verify + rollback), manual `noctalia.service` (no autostart); appendix refreshed (156 binds).
 
 ## Appendix: raw hotkey source (snapshot 2026-09-15)
 
-> Emergency restore copy — 126 binds, count-verified against `config.conf`. Source of truth stays the config files. Refresh per AI rule 8.
+> Emergency restore copy — 157 binds, count-verified against `config.conf`. Source of truth stays the config files. Refresh per AI rule 8.
 
 ```ini
+# Shell modes: default=DMS binds (boot mode), common=both shells,
+# noctalia=Noctalia binds (section below). Swap with SUPER+ALT+N/D.
+# NOTE: the noctalia section parses FIRST so SUPER+H shows DMS descs
+# (correct for the boot/default mode); in noctalia mode shared keys
+# still show DMS text — the markdown sheet is the accurate reference.
+# Shell modes: default=DMS binds (boot mode), common=both shells,
+# noctalia=Noctalia binds (section below). Swap with SUPER+ALT+N/D.
+# NOTE: the noctalia section parses FIRST so SUPER+H shows DMS descs
+# (correct for the boot/default mode); in noctalia mode shared keys
+# still show DMS text — the markdown sheet is the accurate reference.
+keymode=noctalia
+# Noctalia launcher
+bind=SUPER,space,spawn,noctalia msg panel-toggle launcher
+# Noctalia clipboard history
+bind=SUPER,v,spawn,noctalia msg panel-toggle clipboard
+# Process monitor (btop)
+bind=SUPER,m,spawn,kitty --class btop -e btop
+# Noctalia settings
+bind=SUPER,comma,spawn,noctalia msg settings-toggle
+# Do not disturb toggle
+bind=SUPER+SHIFT,n,spawn,noctalia msg notification-dnd-toggle
+# Noctalia wallpaper panel
+bind=SUPER,w,spawn,noctalia msg panel-toggle wallpaper
+# Noctalia control center
+bind=SUPER,o,spawn,noctalia msg panel-toggle control-center
+# Theme dark/light toggle
+bind=SUPER,t,spawn,noctalia msg theme-mode-toggle
+# Lock screen
+bind=SUPER+ALT,l,spawn,noctalia msg session lock
+# Emoji picker (launcher /emo context)
+bind=SUPER,semicolon,spawn,noctalia msg panel-toggle launcher /emo
+# Region screenshot
+bind=SUPER,s,spawn,noctalia msg screenshot-region
+# Fullscreen screenshot
+bind=SUPER+SHIFT,s,spawn,noctalia msg screenshot-fullscreen
+# Annotate screenshot
+bind=SUPER+CTRL+SHIFT,s,spawn,noctalia msg screenshot-annotate
+# Fullscreen screenshot save
+bind=NONE,Print,spawn,noctalia msg screenshot-fullscreen
+# Region screenshot save
+bind=SHIFT,Print,spawn,noctalia msg screenshot-region
+# Annotate screenshot save
+bind=ALT,Print,spawn,noctalia msg screenshot-annotate
+# Session / power menu
+bind=CTRL+ALT,p,spawn,noctalia msg panel-toggle session
+# Session / power menu quick
+bind=SUPER,x,spawn,noctalia msg panel-toggle session
+# Power profile cycle
+bind=SUPER,p,spawn,noctalia msg power-cycle
+# Media play pause
+bind=SUPER+SHIFT,p,spawn,noctalia msg media toggle
+# Reload Noctalia config
+bind=SUPER,r,spawn,noctalia msg config-reload
+# Toggle Noctalia bar
+bind=CTRL+ALT+SUPER,b,spawn,noctalia msg bar-toggle
+# Bind sheet (this markdown)
+bind=SUPER,h,spawn_shell,kitty --class hotkeys -e bat ~/nixos-backups/mango-ultimate-hotkeys.md
+# Portal restart (same shell-agnostic fix as DMS mode)
+bind=SUPER+SHIFT,o,spawn_shell,systemctl --user restart xdg-desktop-portal xdg-desktop-portal-wlr && notify-send 'Portals' 'ScreenCast restarted — retry sharing'
+# Volume up
+bind=NONE,XF86AudioRaiseVolume,spawn,noctalia msg volume-up
+# Volume down
+bind=NONE,XF86AudioLowerVolume,spawn,noctalia msg volume-down
+# Volume mute
+bind=NONE,XF86AudioMute,spawn,noctalia msg volume-mute
+# Brightness up
+bind=NONE,XF86MonBrightnessUp,spawn,noctalia msg brightness-up
+# Brightness down
+bind=NONE,XF86MonBrightnessDown,spawn,noctalia msg brightness-down
+keymode=default
 # ---- DMS keybinds ----
 # Spotlight launcher
 bind=SUPER,space,spawn,dms ipc call spotlight toggle
@@ -224,6 +312,17 @@ bind=SUPER+SHIFT,g,spawn,brave-webgpu
 bind=SUPER+ALT,l,spawn,dms ipc call lock lock
 # Emoji picker (spotlight :e trigger, needs emojiLauncher plugin)
 bind=SUPER,semicolon,spawn,dms ipc call spotlight toggleQuery ":e "
+
+keymode=common
+# =========================================================================
+# PORTED FROM HYPRLAND (full report: ~/.config/mango/KEYBIND-PORT.md)
+# Tuned for mango 0.16.2 (nixos-unstable via programs.mangowc.package in
+# mango-dms.nix). 0.16 has the new IPC (DMS bar workspaces), groups,
+# switcher, special tags, killclient force, dwindle/fair layouts.
+# NOTE: mango only strips comments starting at col 1 — never put "#"
+# inline on a bind line (it glues onto the last arg and breaks it).
+# =========================================================================
+
 # ---- One-key layout cycling: SUPER+L cycles all 14 mango 0.16 layouts ----
 circle_layout=tile,scroller,monocle,grid,deck,center_tile,vertical_tile,right_tile,vertical_scroller,vertical_grid,vertical_deck,dwindle,fair,vertical_fair
 bind=SUPER,l,switch_layout
@@ -240,6 +339,7 @@ bind=SUPER+ALT,2,setlayout,scroller
 bind=SUPER+ALT,3,setlayout,monocle
 # Jump to dwindle layout
 bind=SUPER+ALT,4,setlayout,dwindle
+
 # ---- Standard ----
 # Dolphin file manager
 bind=SUPER,d,spawn,dolphin
@@ -263,6 +363,7 @@ bind=SUPER+SHIFT,v,spawn,kitty --class nvim -e nvim
 bind=SUPER,Return,spawn,kitty
 # File manager (thunar)
 bind=SUPER,e,spawn,thunar
+
 # ---- Features / extras ----
 # Fullscreen toggle
 bind=SUPER+SHIFT,f,togglefullscreen
@@ -272,6 +373,7 @@ bind=SUPER+CTRL,f,togglemaximizescreen
 bind=SUPER+CTRL,space,togglefloating
 # Float all windows
 bind=SUPER+ALT,space,toggle_all_floating
+keymode=default
 # Screenshots via DMS piped to satty for annotation
 # Region select to satty
 bind=SUPER,s,spawn_shell,dms screenshot --stdout --no-file --no-clipboard --no-notify | satty --filename -
@@ -285,11 +387,18 @@ bind=NONE,Print,spawn,dms screenshot full
 bind=SHIFT,Print,spawn,dms screenshot
 # Quick window save, no annotation
 bind=ALT,Print,spawn,dms screenshot window
+keymode=common
+
 # ---- System ----
 # Close window
 bind=SUPER,q,killclient
+# 0.16 killclient takes a force arg — SIGKILL, replaces KillActiveProcess.sh.
+# (Helper script fallback kept at ~/.config/mango/kill-focused.sh)
 # Force kill (SIGKILL)
 bind=SUPER+SHIFT,q,killclient,force
+keymode=default
+# Hide/show the DMS bar (Dank Island). DMS's own `bar hide` IPC refuses
+# island bars, so this flips the config's enabled field + reloads:
 # Toggle DMS bar
 bind=CTRL+ALT+SUPER,b,spawn_shell,~/.config/mango/toggle-dms-bar.sh
 # Power menu
@@ -302,12 +411,20 @@ bind=SUPER,p,spawn,dms ipc call powerprofile cycle
 bind=SUPER+SHIFT,p,spawn,dms ipc call mpris playPause
 # This cheatsheet
 bind=SUPER,h,spawn,dms ipc call keybinds toggle mangowc
+keymode=common
 # Zsh aliases list
 bind=SUPER+SHIFT,h,spawn_shell,~/.config/mango/zsh-aliases.sh
 # Reload mango config
 bind=SUPER+SHIFT,r,reload_config
+keymode=default
 # Restart DMS shell
 bind=SUPER,r,spawn_shell,systemctl --user restart dms
+keymode=common
+# Switch shell to Noctalia
+bind=SUPER+ALT,n,spawn_shell,~/.config/mango/to-noctalia.sh
+# Switch shell to DMS
+bind=SUPER+ALT,d,spawn_shell,~/.config/mango/to-dms.sh
+
 # ---- Master layout ----
 # Fewer masters
 bind=SUPER+CTRL,d,incnmaster,-1
@@ -315,9 +432,11 @@ bind=SUPER+CTRL,d,incnmaster,-1
 bind=SUPER,i,incnmaster,+1
 # Swap with master
 bind=SUPER+CTRL,Return,zoom
+
 # ---- Dwindle layout ----
 # Toggle dwindle split
 bind=SUPER+SHIFT,i,dwindle_toggle_current_split
+
 # ---- Groups (dwl-style directional) ----
 # Group with right neighbor
 bind=SUPER,g,groupjoin,right
@@ -331,11 +450,13 @@ bind=SUPER+CTRL,k,groupjoin,left
 bind=SUPER+CTRL,l,groupjoin,right
 # Leave group
 bind=SUPER+CTRL,h,groupleave
+
 # ---- Window cycling (0.16.2: focusstack; no thumbnail switcher) ----
 # Next window
 bind=ALT,Tab,focusstack,next
 # Prev window
 bind=ALT+SHIFT,Tab,focusstack,prev
+
 # ---- Focus / move / swap / resize ----
 # Focus left
 bind=SUPER,Left,focusdir,left
@@ -358,12 +479,20 @@ bind=SUPER+SHIFT,Left,resizewin,-50,+0
 bind=SUPER+SHIFT,Right,resizewin,+50,+0
 bind=SUPER+SHIFT,Up,resizewin,+0,-50
 bind=SUPER+SHIFT,Down,resizewin,+0,+50
+
 # ---- Tags (workspaces) ----
+# tag_carousel=1 enables 9<->1 wrap for viewtoleft/right AND the
+# view*left/right_have_client populated-workspace hops below:
 tag_carousel=1
+# Populated-workspace hopping now on SUPER+Tab (swap with former period
+# binds). viewtoright/viewtoleft_have_client skip empty tags, wrap 9<->1
+# via tag_carousel, and work from multi-tag views:
 # Next used workspace
 bind=SUPER,Tab,viewtoright_have_client
 # Prev used workspace
 bind=SUPER+SHIFT,Tab,viewtoleft_have_client
+# Full cycle (every workspace incl. empty) via cycle-tag.sh — immune to
+# the multi-tag/overview states that make viewtoright silently no-op:
 # Cycle workspaces forward
 bind=SUPER,period,spawn_shell,~/.config/mango/cycle-tag.sh next
 # Cycle workspaces back
@@ -377,8 +506,13 @@ bind=SUPER,j,toggle_special_tag
 bind=SUPER+SHIFT,j,tag_special_tag
 # Send silent to special
 bind=SUPER+CTRL,j,tag_special_silent
+# Named scratchpad: kitty dropdown, spawns if not running.
+# 0.16.2 signature is id,title,cmd (guide's width/height args are wrong
+# for this version — windowrule sizes it instead). SUPER+CTRL+Return was
+# taken (zoom), so the dropdown lives on SUPER+SHIFT+Return:
 # Kitty dropdown scratchpad
 bind=SUPER+SHIFT,Return,toggle_named_scratchpad,scratch-term,scratch-term,kitty --class scratch-term
+windowrule=isnamedscratchpad:1,width:1280,height:800,appid:scratch-term
 bind=SUPER,1,view,1,0
 bind=SUPER,2,view,2,0
 bind=SUPER,3,view,3,0
@@ -419,6 +553,7 @@ bind=SUPER+CTRL,9,tagsilent,9
 bind=SUPER+SHIFT,bracketleft,tagtoleft,0
 # Move window one tag right
 bind=SUPER+SHIFT,bracketright,tagtoright,0
+
 # ---- Monitors (dwm parity; inert on single-monitor, live with two) ----
 # Focus prev monitor
 bind=SUPER+ALT,comma,focusmon,left
@@ -428,14 +563,21 @@ bind=SUPER+ALT,period,focusmon,right
 bind=SUPER+ALT+SHIFT,comma,tagmon,left
 # Send window to next monitor
 bind=SUPER+ALT+SHIFT,period,tagmon,right
-# ---- Mouse ----
+
+# ---- Mouse: SUPER+LMB drag (swap if tiled / move if floating), SUPER+SHIFT+LMB force float-drag ----
+# HOW TO READ: line starting with # = comment, ignored. Line like 'mousebind=...' = ACTIVE binding that runs.
 # Drag window (tiled swaps on drop, floating moves)
 mousebind=SUPER,btn_left,moveresize,curmove
-# Float on SHIFT+click (toggles — SHIFT+click on floating re-tiles)
+# Float on SHIFT+click (mirrors dwm Super+Shift+Left-drag in two steps). Single-gesture SHIFT-drag-float
+# is impossible: mango retiles EVERY tiled-window moveresize drag globally, any modifier. So: SHIFT+click
+# floats the window in place, then SUPER+Left-drag moves it (floating windows just move, never swap).
+# NOTE: it toggles — SHIFT+click on an already-floating window re-tiles it.
 mousebind=SUPER+SHIFT,btn_left,togglefloating
 # Drag to resize window
 mousebind=SUPER,btn_right,moveresize,curresize
-# ---- Wheel ----
+
+# ---- Wheel: SUPER+scroll hops POPULATED workspaces (skips empty
+# tags, wraps 9<->1 via tag_carousel) ----
 # Wheel to prev used workspace
 axisbind=SUPER,UP,viewtoleft_have_client
 # Wheel to next used workspace
