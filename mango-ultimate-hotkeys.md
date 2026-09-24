@@ -1,6 +1,6 @@
 # Mango Ultimate Hotkeys (fury) — LIVING DOC, keep updated
 
-> Last updated: 2026-09-15 (dual-shell keymodes: DMS default + Noctalia). MangoWC 0.17.0 + DMS 1.6 + Noctalia 5.1.0.
+> Last updated: 2026-09-24 (appendix re-synced to post-swap config: U=special trio, J=scratchpad trio, 157 binds verified). MangoWC 0.17.0 + DMS 1.6 + Noctalia 5.1.0.
 > Source of truth: `~/.config/mango/config.conf` (+ `media.conf`, `dms/` fragments).
 > This file is the hotkey reference to hand to any AI. When binds change, update this file AND the config together.
 > Supersedes `~/mango-dms-hotkeys.md` (left untouched as archive).
@@ -204,8 +204,9 @@ Note: single-gesture SHIFT-drag-float is impossible — mango retiles EVERY tile
 - 2026-09-15: fixed grey desktop on re-login — added `exec-once=systemctl --user start dms` (session target is often already active, so its Wants never refires and DMS stayed dead).
 - 2026-09-15: dual-shell keymodes — `noctalia` mode mirroring the DMS set via `noctalia msg`, `SUPER+ALT+N/D` swap scripts (verify + rollback), manual `noctalia.service` (no autostart); appendix refreshed (156 binds).
 - 2026-09-15: swapped the complete special-workspace trio from `SUPER+J` to `SUPER+U`; moved regular scratchpad/minimize/restore to the `SUPER+J` trio.
+- 2026-09-24: appendix-only fix — snapshot still showed pre-swap J/U actions + stale descs; re-synced 6 lines to live config (157/157 verified), tables needed no change.
 
-## Appendix: raw hotkey source (snapshot 2026-09-15)
+## Appendix: raw hotkey source (snapshot 2026-09-24)
 
 > Emergency restore copy — 157 binds, count-verified against `config.conf`. Source of truth stays the config files. Refresh per AI rule 8.
 
@@ -498,15 +499,18 @@ bind=SUPER+SHIFT,Tab,viewtoleft_have_client
 bind=SUPER,period,spawn_shell,~/.config/mango/cycle-tag.sh next
 # Cycle workspaces back
 bind=SUPER+SHIFT,period,spawn_shell,~/.config/mango/cycle-tag.sh prev
-bind=SUPER,u,toggle_scratchpad
-bind=SUPER+SHIFT,u,minimized
-bind=SUPER+CTRL,u,restore_minimized
 # Special workspace overlay
-bind=SUPER,j,toggle_special_tag
+bind=SUPER,u,toggle_special_tag
 # Send window to special
-bind=SUPER+SHIFT,j,tag_special_tag
+bind=SUPER+SHIFT,u,tag_special_tag
 # Send silent to special
-bind=SUPER+CTRL,j,tag_special_silent
+bind=SUPER+CTRL,u,tag_special_silent
+# Regular scratchpad toggle
+bind=SUPER,j,toggle_scratchpad
+# Minimize window
+bind=SUPER+SHIFT,j,minimized
+# Restore minimized window
+bind=SUPER+CTRL,j,restore_minimized
 # Named scratchpad: kitty dropdown, spawns if not running.
 # 0.16.2 signature is id,title,cmd (guide's width/height args are wrong
 # for this version — windowrule sizes it instead). SUPER+CTRL+Return was
