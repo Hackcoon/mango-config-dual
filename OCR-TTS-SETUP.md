@@ -1,7 +1,8 @@
 # OCR + GPU TTS setup (mango-config-dual) — exact recreation guide
 
-What this gives you: `SUPER+SHIFT+X` region-to-text OCR, `SUPER+SHIFT+T` clipboard
-spoken aloud by Kokoro (`af_heart:0.4,af_bella:0.6`) on NVIDIA GPU. Fully offline
+What this gives you: `SUPER+X` region-to-text OCR, `SUPER+T` clipboard
+spoken aloud by Kokoro (`af_heart:0.4,af_bella:0.6`) on NVIDIA GPU, `SUPER+M`
+dictation via Parakeet. Fully offline
 after first-run downloads. Dual variant — DMS + Noctalia keymodes both live
 here (untouched by this guide except the two binds below, which go in the
 shared `keymode=default` screenshots cluster and are compositor-keymode
@@ -165,14 +166,18 @@ cluster (shared keys work in every keymode; do NOT put these in the
 
 ```
 # Region select to text (OCR extract)
-bind=SUPER+SHIFT,x,spawn_shell,region=$(slurp) || exit 0; grim -g "$region" - | tesseract stdin stdout -l eng 2>/dev/null | wl-copy; notify-send "OCR" "$(wl-paste | head -c 200)"
+bind=SUPER,x,spawn_shell,region=$(slurp) || exit 0; grim -g "$region" - | tesseract stdin stdout -l eng 2>/dev/null | wl-copy; notify-send "OCR" "$(wl-paste | head -c 200)"
 # Speak clipboard aloud (Kokoro Heart/Bella, GPU)
-bind=SUPER+SHIFT,t,spawn_shell,wl-paste --no-newline | /home/fury/.local/bin/dusky-kokoro speak --stdin --mode interrupt
+bind=SUPER,t,spawn_shell,wl-paste --no-newline | /home/fury/.local/bin/dusky-kokoro speak --stdin --mode interrupt
 ```
 
 Use the **absolute** trigger path — mango's `spawn_shell` does not inherit
 `~/.local/bin` on PATH (bare `dusky-kokoro` dies silently). Mango hot-reloads
 `config.conf`; validate with `mango -p -c ~/.config/mango/config.conf`.
+
+Layer convention: bare `SUPER+X/T/M` are the AI layer (OCR/speak/dictate);
+the previous occupants moved up one layer — power-quick to `SUPER+SHIFT+X`,
+theme toggle to `SUPER+SHIFT+T`, process list to `SUPER+SHIFT+M`.
 
 ---
 
@@ -276,7 +281,7 @@ it in the `keymode=noctalia` section):
 
 ```
 # STT record toggle (hyprwhspr-rs, Parakeet)
-bind=SUPER+SHIFT,m,spawn,hyprwhspr-rs record toggle
+bind=SUPER,m,spawn,hyprwhspr-rs record toggle
 ```
 
 `hyprwhspr-rs` is a system package (`/run/current-system/sw/bin`), so the
