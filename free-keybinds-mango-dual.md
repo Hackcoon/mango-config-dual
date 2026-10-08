@@ -1,4 +1,4 @@
-# Free keybinds (fury) — generated 2026-09-29 from `~/.config/mango/config.conf` (165 binds, dual DMS+Noctalia keymodes)
+# Free keybinds (fury) — generated 2026-10-08 from `~/.config/mango/config.conf` (166 binds, dual DMS+Noctalia keymodes)
 
 > Regenerate after any bind change: `rg -n "^(bind|mousebind|axisbind)=" ~/.config/mango/config.conf`.
 > Bare-`SUPER` letters are EXHAUSTED — all 26 taken.
@@ -33,8 +33,8 @@ Key names are mango/XKB style (`semicolon` = `;`, `slash` = `/`,
 
 | Status | Keys |
 |---|---|
-| Taken | `d l n, space, 1-4, comma (,), period (.), arrows` |
-| FREE | `a b c e f g h i j k m o p q r s t u v w x y z, 0, 5-9, semicolon (;), slash (/), apostrophe ('), minus (-), equal (=), brackets, backslash (\), grave (`), return, tab` |
+| Taken | `d l n p, space, 1-4, comma (,), period (.), arrows` |
+| FREE | `a b c e f g h i j k m o q r s t u v w x y z, 0, 5-9, semicolon (;), slash (/), apostrophe ('), minus (-), equal (=), brackets, backslash (\), grave (`), return, tab` |
 
 > Shell swap binds live here: `SUPER+ALT+N` (to Noctalia) / `SUPER+ALT+D` (to DMS).
 > Keymodes (`common` / `default` / `noctalia`) are per-mode: the same key may
